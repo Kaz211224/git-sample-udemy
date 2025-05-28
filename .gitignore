@@ -1,1 +1,12 @@
 .env
+
+# Flask and Python
+*.pyc
+__pycache__/
+*.env
+venv/
+env/
+instance/
+
+# Uploaded files
+uploads/

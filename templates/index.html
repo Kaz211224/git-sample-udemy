@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My Streaming Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Uploaded Media</h1>
+        <div class="navigation-links">
+            <p><a href="{{ url_for('upload_page') }}">Upload New File</a></p>
+        </div>
+        <hr>
+        {% if files %}
+          <ul>
+          {% for file in files %}
+            <li class="file-item">
+              <p>{{ file }}</p>
+              {% if file.lower().endswith(('.mp3', '.wav', '.ogg', '.m4a')) %}
+                  <audio controls>
+                      <source src="{{ url_for('serve_upload', filename=file) }}">
+                      Your browser does not support the audio element.
+                  </audio>
+              {% elif file.lower().endswith(('.mp4', '.webm', '.mov')) %}
+                  <video width="320" height="240" controls>
+                      <source src="{{ url_for('serve_upload', filename=file) }}">
+                      Your browser does not support the video tag.
+                  </video>
+              {% else %}
+                  <p>Cannot play this file type directly. <a href="{{ url_for('serve_upload', filename=file) }}">Download</a></p>
+              {% endif %}
+            </li>
+          {% endfor %}
+          </ul>
+        {% else %}
+          <p>No files uploaded yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
